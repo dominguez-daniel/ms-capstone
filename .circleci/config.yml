@@ -68,22 +68,22 @@ jobs:
             paths:
               - ./image.tar
   
-  pusb_docker_image:
-      executor: docker-publisher
-      steps:
-        - checkout
-        - setup_remote_docker
-        - attatch_workspace:
-            at: /tmp/workspace
-        - run:
-            name: Load Docker image
-            command: |
-              docker load --input /tmp/workspace/image.tar
-        - run:
-            name: Publish Docker image
-            command: |
-              docker login -u "${DOCKER_USERNAME}" --password-stdin
-              docker push ${TAG}
+  push_docker_image:
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attatch_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load Docker image
+          command: |
+            docker load --input /tmp/workspace/image.tar
+      - run:
+          name: Publish Docker image
+          command: |
+            docker login -u "${DOCKER_USERNAME}" --password-stdin
+            docker push ${TAG}
 
 
 workflows:
@@ -94,5 +94,5 @@ workflows:
       - analyze
       - build_docker_image:
           requires: [test, lint, analyze]
-      - pusb_docker_image:
+      - push_docker_image:
           requires: [build_docker_image]
