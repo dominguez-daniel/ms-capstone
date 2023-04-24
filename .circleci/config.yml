@@ -107,14 +107,6 @@ jobs:
             chmod +x ./kubectl
             mv ./kubectl /usr/local/bin/kubectl
 
-    
-      - run:
-          name: print stuff
-          command: |
-            eksctl version
-            kubectl version
-
-
 workflows:
   ci:
     jobs:
