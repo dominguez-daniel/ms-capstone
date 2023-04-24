@@ -15,19 +15,32 @@ jobs:
           command: |
             npm run test
   lint:
-      docker:
-        - image: node:16-alpine
-      steps:
-        - checkout
-        - run:
-            name: Install dependencies
-            command: |
-              npm install
-        - run:
-            name: Lint project
-            command: |
-              npm run lint
+    docker:
+      - image: node:16-alpine
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            npm install
+      - run:
+          name: Lint project
+          command: |
+            npm run lint
   
+  analyze:
+    docker:
+      - image: node:16-alpine
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            npm install
+      - run:
+          name: Analyze project dependencies
+          command: |
+            npm audit
   
 
 workflows:
