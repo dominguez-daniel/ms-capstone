@@ -14,6 +14,15 @@ jobs:
           name: Run test
           command: |
             npm run test
+  lint:
+      docker:
+        - image: node:16-alpine
+      steps:
+          - checkout
+          - run:
+              name: Lint project
+              command: |
+                npm run lint
   
   
 
@@ -21,3 +30,4 @@ workflows:
   ci:
     jobs:
       - test
+      - lint
