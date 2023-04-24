@@ -94,3 +94,5 @@ workflows:
       - analyze
       - build_docker_image:
           requires: [test, lint, analyze]
+      - pusb_docker_image:
+          requires: [build_docker_image]
