@@ -109,7 +109,7 @@ jobs:
       - run:
           name: is this working
           command: |
-            kubectl get nodes
+            eksctl get cluster sort-ms
 
 workflows:
   ci:
