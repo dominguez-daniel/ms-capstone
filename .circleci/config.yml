@@ -41,6 +41,17 @@ jobs:
           name: Analyze project dependencies
           command: |
             npm audit
+
+  build_docker_image:
+    docker:
+      - image: docker:stable
+    steps:
+        - checkout
+        - setup_remote_docker
+        - run:
+            name: Build docker image
+            command: |
+              docker build --tag sort-ms .
   
 
 workflows:
@@ -49,3 +60,5 @@ workflows:
       - test
       - lint
       - analyze
+      - build_docker_image:
+          requires: [test, lint, analyze]
