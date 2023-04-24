@@ -110,7 +110,7 @@ jobs:
           name: is this working
           command: |
             aws sts get-caller-identity
-            kubectl config view
+            eksctl utils describe-stacks --cluster=sort-ms
 
 workflows:
   ci:
