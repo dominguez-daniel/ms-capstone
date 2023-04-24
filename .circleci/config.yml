@@ -85,6 +85,17 @@ jobs:
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             docker push ${TAG}
 
+  deploy_to_cluster:
+    docker:
+      - image: circleci/aws-eks
+    steps:
+      - checkout
+      - run:
+          name: print stuff
+          command: |
+            eksctl version
+            kubectl version
+
 
 workflows:
   ci:
@@ -96,3 +107,5 @@ workflows:
           requires: [test, lint, analyze]
       - push_docker_image:
           requires: [build_docker_image]
+      - deploy_to_cluster:
+          requires: [push_docker_image]
