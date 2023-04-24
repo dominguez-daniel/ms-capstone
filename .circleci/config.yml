@@ -18,15 +18,15 @@ jobs:
       docker:
         - image: node:16-alpine
       steps:
-          - checkout
-          - run:
-            name: Install dependencies
+        - checkout
+        - run:
+          name: Install dependencies
+          command: |
+            npm install
+        - run:
+            name: Lint project
             command: |
-              npm install
-          - run:
-              name: Lint project
-              command: |
-                npm run lint
+              npm run lint
   
   
 
