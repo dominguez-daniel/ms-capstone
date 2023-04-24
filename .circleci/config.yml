@@ -17,6 +17,7 @@ jobs:
   
   
 
-workflow:
-  jobs:
-    - test
+workflows:
+  default:
+    jobs:
+      - test
