@@ -73,7 +73,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - attatch_workspace:
+      - attach_workspace:
           at: /tmp/workspace
       - run:
           name: Load Docker image
