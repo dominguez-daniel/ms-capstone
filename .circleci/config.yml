@@ -1,0 +1,22 @@
+version: 2
+
+jobs:
+  test:
+    docker:
+      - image: node:16-alpine
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            npm install
+      - run: 
+          name: Run test
+          command: |
+            npm run test
+  
+  
+
+workflow:
+  jobs:
+    - test
