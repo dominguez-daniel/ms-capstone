@@ -8,6 +8,7 @@ app.use(express.json());
 
 
 app.get('/', (req, res) => {
+  res.status(200);
   res.send('Healthy');
 });
 
@@ -26,6 +27,4 @@ app.post('/sort', (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`server started on port::${process.env.PORT}`);
-});
+module.exports = app;
