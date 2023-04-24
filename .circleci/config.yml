@@ -1,9 +1,19 @@
 version: 2.1
 
-jobs:
-  test:
+executors:
+  node:
     docker:
       - image: node:16-alpine
+
+  docker-publisher:
+    environment:
+      IMAGE_TAG: ddanny99/sort-ms:latest
+    docker:
+      - image: docker:stable
+
+jobs:
+  test:
+    executor: node
     steps:
       - checkout
       - run:
@@ -15,8 +25,7 @@ jobs:
           command: |
             npm run test
   lint:
-    docker:
-      - image: node:16-alpine
+    executor: node
     steps:
       - checkout
       - run:
@@ -29,8 +38,7 @@ jobs:
             npm run lint
   
   analyze:
-    docker:
-      - image: node:16-alpine
+    executor: node
     steps:
       - checkout
       - run:
@@ -43,8 +51,7 @@ jobs:
             npm audit
 
   build_docker_image:
-    docker:
-      - image: docker:stable
+    executor: docker-publisher
     steps:
         - checkout
         - setup_remote_docker
