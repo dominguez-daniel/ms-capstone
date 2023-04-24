@@ -87,9 +87,19 @@ jobs:
 
   deploy_to_cluster:
     docker:
-      - image: alpine/k8s
+      - image: cimg/aws:2022.11
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz
+            sudo mv /tmp/eksctl /usr/local/bin
+      - run:
+          name: asdf
+          command: |
+            curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+            sudo mv /tmp/eksctl /usr/local/bin
       - run:
           name: print stuff
           command: |
