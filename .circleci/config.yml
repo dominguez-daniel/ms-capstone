@@ -87,7 +87,7 @@ jobs:
 
   deploy_to_cluster:
     docker:
-      - image: circleci/aws-eks
+      - image: cimg/aws:2022.11
     steps:
       - checkout
       - run:
