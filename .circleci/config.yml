@@ -110,6 +110,7 @@ jobs:
           name: is this working
           command: |
             aws sts get-caller-identity
+            kubectl get nodes
 
 workflows:
   ci:
