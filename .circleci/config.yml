@@ -58,7 +58,7 @@ jobs:
         - run:
             name: Build docker image
             command: |
-              docker build --tag sort-ms .
+              docker build --tag "${IMAGE_TAG}" .
   
 
 workflows:
