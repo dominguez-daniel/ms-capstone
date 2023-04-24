@@ -115,6 +115,7 @@ jobs:
           command: |
             aws sts get-caller-identity
             kubectl config view
+            kubectl get nodes
             
 
 workflows:
