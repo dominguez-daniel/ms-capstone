@@ -59,7 +59,21 @@ jobs:
             name: Build docker image
             command: |
               docker build --tag "${IMAGE_TAG}" .
+        - run:
+            name: Save Docker image
+            command: |
+              docker save --ouput image.tar "${IMAGE_TAG}"
+        - persist_to_workspace:
+            root: .
+            paths:
+              - ./image.tar
   
+  # pusb_docker_image:
+  #     executor: docker-publisher
+  #     steps:
+  #       - checkout
+  #       - setup_remote_docker
+
 
 workflows:
   ci:
