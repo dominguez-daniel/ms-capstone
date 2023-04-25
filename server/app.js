@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/sort', (req, res) => {
-  console.log(':: /sort ::', `${algo.method}`);
+  console.log('LOG:: /sort ::', `${algo.method}`);
   if (req.body.input && Array.isArray(req.body.input)) {
     console.time("timer");
     const result = algo.mergeSort(req.body.input);

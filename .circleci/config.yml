@@ -58,7 +58,7 @@ jobs:
         - run:
             name: Build docker image
             command: |
-              docker build --tag "${TAG}" .
+              docker build --tag="${TAG}" .
         - run:
             name: Save Docker image
             command: |
@@ -82,8 +82,9 @@ jobs:
       - run:
           name: Publish Docker image
           command: |
+            docker tag ${TAG} ${TAG}:latest
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-            docker push ${TAG}
+            docker push ${TAG}:latest
 
   deploy_to_cluster:
     docker:
@@ -114,9 +115,11 @@ jobs:
           # sort-ms-5ddb494bf6-crjnh
           name: is this working
           command: |
-            kubectl get pods --show-labels
-            kubectl get pods
-            kubectl describe pods
+            # kubectl get pods --show-labels
+            # kubectl get pods
+            # kubectl describe pods
+            kubectl set image deployments/sort-ms sort-ms=${TAG}:latest
+            kubectl port-forward sort-ms-5ddb494bf6-crjnh 8080:8080
 
 workflows:
   ci:
