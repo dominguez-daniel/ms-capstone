@@ -7,8 +7,8 @@ executors:
 
   docker-publisher:
     environment:
+      # TAG: ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}
       PIPLINE_NUMBER: << pipeline.number >>
-      TAG: ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}
     docker:
       - image: docker:stable
 
@@ -50,11 +50,7 @@ jobs:
           name: Analyze project dependencies
           command: |
             npm audit
-      - run:
-          name: print
-          command: |
-            export x="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
-            echo $x
+
   build_docker_image:
     executor: docker-publisher
     steps:
@@ -63,19 +59,17 @@ jobs:
         - run:
             name: Build docker image
             command: |
+              export TAG="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
               docker build --tag="${TAG}" .
         - run:
             name: Save Docker image
             command: |
+              export TAG="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
               docker save --output image.tar "${TAG}"
         - persist_to_workspace:
             root: .
             paths:
               - ./image.tar
-        - run: 
-            name: Print tag
-            command: |
-              echo ${PIPLINE_NUMBER}
   
   push_docker_image:
     executor: docker-publisher
@@ -91,6 +85,7 @@ jobs:
       - run:
           name: Publish Docker image
           command: |
+            export TAG="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
             docker tag ${TAG} ${TAG}
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             docker push ${TAG}
@@ -124,10 +119,6 @@ jobs:
           name: Update Kube Config
           command: |
             aws eks --region us-east-1 update-kubeconfig --name sort-ms
-      - run: 
-          name: Print tag
-          command: |
-            echo ${PIPLINE_NUMBER}
       - run:
           # sort-ms-5ddb494bf6-crjnh
           name: is this working
@@ -137,6 +128,7 @@ jobs:
             # kubectl describe pods
             # kubectl set image deployments/sort-ms sort-ms=${TAG}
             # kubectl port-forward sort-ms-5ddb494bf6-crjnh 8080:8080
+            export TAG="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
             echo $TAG
 
 workflows:
