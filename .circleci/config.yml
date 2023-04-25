@@ -7,8 +7,8 @@ executors:
 
   docker-publisher:
     environment:
-      TAG: ddanny99/sort-ms:latest
       PIPLINE_NUMBER: << pipeline.number >>
+      TAG: ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}
     docker:
       - image: docker:stable
 
@@ -50,7 +50,11 @@ jobs:
           name: Analyze project dependencies
           command: |
             npm audit
-
+      - run:
+          name: print
+          command: |
+            export x="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
+            echo $x
   build_docker_image:
     executor: docker-publisher
     steps:
