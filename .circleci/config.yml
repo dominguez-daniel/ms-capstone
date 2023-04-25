@@ -67,6 +67,11 @@ jobs:
             root: .
             paths:
               - ./image.tar
+        - run: 
+            name: Print tag
+            command: |
+              export tagName="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
+              echo $tagName
   
   push_docker_image:
     executor: docker-publisher
@@ -121,8 +126,6 @@ jobs:
             # kubectl set image deployments/sort-ms sort-ms=${TAG}
             # kubectl port-forward sort-ms-5ddb494bf6-crjnh 8080:8080
             echo $TAG
-            export tagName="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
-            echo $tagName
 
 workflows:
   ci:
