@@ -4,12 +4,16 @@ executors:
   node:
     docker:
       - image: node:16-alpine
-
   docker-publisher:
     environment:
       PIPLINE_NUMBER: << pipeline.number >>
     docker:
       - image: docker:stable
+  docker-light:
+    environment:
+      PIPLINE_NUMBER: << pipeline.number >>
+    docker:
+      - image: alpine:latest
 
 jobs:
   test:
@@ -94,8 +98,7 @@ jobs:
               echo ${PIPLINE_NUMBER}
 
   deploy_to_cluster:
-    docker:
-      - image: alpine:latest
+    executor: docker-light
     steps:
       - checkout
       - run:
