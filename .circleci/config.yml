@@ -121,9 +121,9 @@ jobs:
           command: |
             aws eks --region us-east-1 update-kubeconfig --name sort-ms
       - run: 
-            name: Print tag
-           command: |
-              echo ${PIPLINE_NUMBER}
+          name: Print tag
+          command: |
+            echo ${PIPLINE_NUMBER}
       - run:
           # sort-ms-5ddb494bf6-crjnh
           name: is this working
