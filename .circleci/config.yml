@@ -6,8 +6,8 @@ executors:
       - image: node:16-alpine
 
   docker-publisher:
-    # environment:
-    #   TAG: "ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
+    environment:
+      TAG: ddanny99/sort-ms:latest
     docker:
       - image: docker:stable
 
@@ -58,17 +58,20 @@ jobs:
         - run:
             name: Build docker image
             command: |
-              export TAG="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
               docker build --tag="${TAG}" .
         - run:
             name: Save Docker image
             command: |
-              export TAG="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
               docker save --output image.tar "${TAG}"
         - persist_to_workspace:
             root: .
             paths:
               - ./image.tar
+        - run: 
+            name: Print tag
+            command: |
+              export tagName="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
+              echo $tagName
   
   push_docker_image:
     executor: docker-publisher
@@ -84,10 +87,14 @@ jobs:
       - run:
           name: Publish Docker image
           command: |
-            export TAG="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
             docker tag ${TAG} ${TAG}
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             docker push ${TAG}
+      - run: 
+            name: Print tag
+            command: |
+              export tagName="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
+              echo $tagName
 
   deploy_to_cluster:
     docker:
@@ -114,6 +121,11 @@ jobs:
           name: Update Kube Config
           command: |
             aws eks --region us-east-1 update-kubeconfig --name sort-ms
+      - run: 
+            name: Print tag
+            command: |
+              export tagName="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
+              echo $tagName
       - run:
           # sort-ms-5ddb494bf6-crjnh
           name: is this working
