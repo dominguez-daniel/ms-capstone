@@ -130,7 +130,7 @@ jobs:
             export TAG="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
             echo $TAG
             kubectl set image deployments/sort-ms sort-ms=${TAG}
-       - run:
+      - run:
           name: Wait for deployment to update
           command: |
             sleep 30
