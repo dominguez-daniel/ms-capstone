@@ -7,7 +7,7 @@ executors:
 
   docker-publisher:
     environment:
-      TAG: ddanny99/sort-ms:latest
+      TAG: ddanny99/sort-ms:${CIRCLE_BUILD_NUM}
     docker:
       - image: docker:stable
 
@@ -118,8 +118,9 @@ jobs:
             # kubectl get pods --show-labels
             # kubectl get pods
             # kubectl describe pods
-            kubectl set image deployments/sort-ms sort-ms=${TAG}
-            kubectl port-forward sort-ms-5ddb494bf6-crjnh 8080:8080
+            # kubectl set image deployments/sort-ms sort-ms=${TAG}
+            # kubectl port-forward sort-ms-5ddb494bf6-crjnh 8080:8080
+            echo $TAG
 
 workflows:
   ci:

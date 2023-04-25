@@ -20,7 +20,8 @@ app.post('/sort', (req, res) => {
     console.timeEnd("timer");
     res.status(200).json({ 
       sortedOutput: result,
-      methodUsed: algo.method
+      methodUsed: algo.method,
+      recursive: true
     });
   } else {
     res.status(401).json({ error: 'Error sorting input' });
