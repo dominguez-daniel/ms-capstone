@@ -120,7 +120,7 @@ jobs:
       - run:
           name: Update Kube Config
           command: |
-            aws eks --region us-east-1 update-kubeconfig --name sort-ms
+            aws eks --region us-east-1 update-kubeconfig --name sort-ms-cluster
       - run:
           name: Rollout deployment
           command: |
