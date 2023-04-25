@@ -69,6 +69,10 @@ jobs:
             command: |
               export TAG="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
               docker save --output image.tar "${TAG}"
+        - persist_to_workspace:
+            root: .
+            paths:
+              - ./image.tar
   
   push_docker_image:
     executor: docker-publisher
@@ -88,10 +92,6 @@ jobs:
             docker tag ${TAG} ${TAG}
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             docker push ${TAG}
-      - run: 
-            name: Print tag
-            command: |
-              echo ${PIPLINE_NUMBER}
 
   deploy_to_cluster:
     executor: docker-light
@@ -134,8 +134,8 @@ jobs:
           name: Print pod name
           command: |
             export POD_NAME=$(kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
-            echo $POD_NAME
-                
+            echo $POD_NAME  
+              
 workflows:
   ci:
     jobs:
