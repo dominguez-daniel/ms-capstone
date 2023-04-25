@@ -139,6 +139,7 @@ jobs:
           command: |
             export POD_NAME=$(kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
             echo $POD_NAME
+            kubectl port-forward $POD_NAME 8080:8080
   
               
 workflows:

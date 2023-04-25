@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 
 const algo = require('../utils/mergeSort');
-const pkgVersion = require('../package.json').version;
 
 const app = express();
 app.use(express.json());
@@ -23,7 +22,7 @@ app.post('/sort', (req, res) => {
       sortedOutput: result,
       methodUsed: algo.method,
       recursive: true,
-      version: pkgVersion
+      test: true
     });
   } else {
     res.status(401).json({ error: 'Error sorting input' });
