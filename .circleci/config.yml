@@ -127,8 +127,8 @@ jobs:
             export TAG="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
             kubectl set image deployments/sort-ms sort-ms=${TAG}
       - run:
-            name: Serve deployment
-            command: |
+          name: Serve deployment
+          command: |
             export POD_NAME=$(cat kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
             echo $POD_NAME
             # kubectl port-forward $POD_NAME 8080:8080
