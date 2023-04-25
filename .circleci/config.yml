@@ -107,16 +107,13 @@ jobs:
             chmod +x ./kubectl
             mv ./kubectl /usr/local/bin/kubectl
       - run:
-          name: sdf
+          name: Update Kube Config
           command: |
             aws eks --region us-east-1 update-kubeconfig --name sort-ms
       - run:
           name: is this working
           command: |
-            aws sts get-caller-identity
-            kubectl config view
-            kubectl get nodes
-            
+            kubectl get pods --show-labels
 
 workflows:
   ci:
