@@ -139,7 +139,7 @@ jobs:
           command: |
             export POD_NAME=$(kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
             echo $POD_NAME
-            kubectl port-forward $POD_NAME 8080:8080
+            # kubectl expose deployment sort-ms --port=8080 --target-port=8080 --type=LoadBalancer
   
               
 workflows:
