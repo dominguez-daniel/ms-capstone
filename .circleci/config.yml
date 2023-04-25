@@ -121,7 +121,7 @@ jobs:
             # kubectl set image deployments/sort-ms sort-ms=${TAG}
             # kubectl port-forward sort-ms-5ddb494bf6-crjnh 8080:8080
             echo $TAG
-            echo ${CIRCLE_BUILD_NUM}
+            echo (ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM})
 
 workflows:
   ci:
@@ -131,6 +131,9 @@ workflows:
       - analyze
       - build_docker_image:
           requires: [test, lint, analyze]
+          filters:
+            branches:
+              only: [main]
       - push_docker_image:
           requires: [build_docker_image]
       - deploy_to_cluster:
