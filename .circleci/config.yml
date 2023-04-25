@@ -7,7 +7,6 @@ executors:
 
   docker-publisher:
     environment:
-      # TAG: ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}
       PIPLINE_NUMBER: << pipeline.number >>
     docker:
       - image: docker:stable
@@ -120,17 +119,20 @@ jobs:
           command: |
             aws eks --region us-east-1 update-kubeconfig --name sort-ms
       - run:
-          # sort-ms-5ddb494bf6-crjnh
-          name: is this working
+          name: Rollout deployment
           command: |
             # kubectl get pods --show-labels
             # kubectl get pods
             # kubectl describe pods
-            # kubectl set image deployments/sort-ms sort-ms=${TAG}
-            # kubectl port-forward sort-ms-5ddb494bf6-crjnh 8080:8080
             export TAG="ddanny99/sort-ms:v1.0.${PIPLINE_NUMBER}"
-            echo $TAG
-
+            kubectl set image deployments/sort-ms sort-ms=${TAG}
+      - run:
+            name: Serve deployment
+            command: |
+            export POD_NAME=$(cat kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+            echo $POD_NAME
+            # kubectl port-forward $POD_NAME 8080:8080
+              
 workflows:
   ci:
     jobs:
