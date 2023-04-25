@@ -111,6 +111,7 @@ jobs:
           command: |
             aws eks --region us-east-1 update-kubeconfig --name sort-ms
       - run:
+          # sort-ms-5ddb494bf6-crjnh
           name: is this working
           command: |
             kubectl get pods --show-labels
