@@ -115,6 +115,8 @@ jobs:
           name: is this working
           command: |
             kubectl get pods --show-labels
+            kubectl get pods
+            kubectl describe pods
 
 workflows:
   ci:
