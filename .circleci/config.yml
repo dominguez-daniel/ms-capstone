@@ -8,6 +8,7 @@ executors:
   docker-publisher:
     environment:
       TAG: ddanny99/sort-ms:latest
+      PIPLINE_NUMBER: << pipeline.number >>
     docker:
       - image: docker:stable
 
@@ -70,8 +71,7 @@ jobs:
         - run: 
             name: Print tag
             command: |
-              export tagName="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
-              echo $tagName
+              echo ${PIPLINE_NUMBER}
   
   push_docker_image:
     executor: docker-publisher
@@ -93,8 +93,7 @@ jobs:
       - run: 
             name: Print tag
             command: |
-              export tagName="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
-              echo $tagName
+              echo ${PIPLINE_NUMBER}
 
   deploy_to_cluster:
     docker:
@@ -123,9 +122,8 @@ jobs:
             aws eks --region us-east-1 update-kubeconfig --name sort-ms
       - run: 
             name: Print tag
-            command: |
-              export tagName="ddanny99/sort-ms:v1.0.${CIRCLE_BUILD_NUM}"
-              echo $tagName
+           command: |
+              echo ${PIPLINE_NUMBER}
       - run:
           # sort-ms-5ddb494bf6-crjnh
           name: is this working
