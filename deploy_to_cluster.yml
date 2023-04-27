@@ -1,0 +1,4 @@
+#!/bin/bash
+kubectl get nodes
+
+kubectl create deploy sort-ms --image=ddanny99/sort-ms:latest
